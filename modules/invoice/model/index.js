@@ -1,0 +1,97 @@
+const mongoose = require("mongoose");
+const STATUS = {
+  STATUS_PENDING: "PENDING",
+  STATUS_CONFIRMED: "CONFIRMED",
+  STATUS_DECLINED: "DECLINED",
+};
+const InvoiceSchema = new mongoose.Schema(
+  {
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "companies",
+      required: false,
+    },
+    branch: { type: String, required: false, default:'all' },
+    invoiceDate: { type: Date, required: false },
+    invoiceSerial: { type: String, required: false },
+    invoiceNo: { type: String, required: false },
+    invoiceMerged: { type: String, required: false },
+    shopman: { type: String, required: false },
+    fullName: { type: String, required: false },
+    gate: { type: String, required: false },
+    destCountry: { type: String, required: false },
+    destCity: { type: String, required: false },
+    airport: { type: String, required: false },
+    airline: { type: String, required: false },
+    airlineId: { type: mongoose.Schema.Types.ObjectId,
+      ref: "airlines",
+      required: false, },
+    flight: { type: String, required: false },
+    deparDate: { type: Date, required: false },
+    deparTime: { type: String, required: false },
+    agency: { type: String, required: false },
+    agencyId: { type: mongoose.Schema.Types.ObjectId,
+      ref: "agencies",
+      required: false, },
+    guide: { type: String, required: false },
+    declineDate: { type: Date, required: false },
+    reasonId: { type: mongoose.Schema.Types.ObjectId,
+      ref: "reasons",
+      required: false, },
+    client: {
+      name: { type: String, required: false },
+      surname: { type: String, required: false },
+      cardNo: { type: String, required: false },
+      nation: { type: String, required: false },
+      passportNo: { type: String, required: false },
+      phone: { type: String, required: false },
+      hotel: { type: String, required: false },
+      address: { type: String, required: false },
+    },
+    details: [
+      {
+        productCategory: { type: String, default: false },
+        productName: { type: String, default: false },
+        productId: { type: mongoose.Schema.Types.ObjectId,
+          ref: "products",
+          required: false, },
+        kdv: { type: Number, default: false },
+        productCode: { type: String, default: false },
+        unit: { type: String, default: false },
+        quantity: { type: Number, default: false },
+        price: { type: Number, default: false },
+        productTotal: { type: Number, default: false },
+        productBrut: { type: Number, default: false },
+      },
+    ],
+    note: { type: String, required: false },
+    campaign: { type: String, required: false },
+    campaignId: { type: mongoose.Schema.Types.ObjectId,
+      ref: "campaigns",
+      required: false, },
+      way: { type: String, default: false },
+      terminal: { type: String, required: false },
+    terminalId: { type: mongoose.Schema.Types.ObjectId,
+      ref: "terminals",
+      required: false, },
+    status: {
+      type: String,
+      enum: [
+        STATUS.STATUS_CONFIRMED,
+        STATUS.STATUS_DECLINED,
+        STATUS.STATUS_PENDING,
+      ],
+      default: STATUS.STATUS_PENDING,
+    },
+    approveDate:{ type: Date, required: false },
+    approveNo:{ type: String, required: false },
+    uuid:{ type: String, required: false },
+  },
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+);
+
+const Invoice = mongoose.model("invoices", InvoiceSchema);
+
+module.exports = {
+  Invoice,
+};
